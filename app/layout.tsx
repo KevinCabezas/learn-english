@@ -31,3 +31,8 @@ export default function RootLayout({
     </html>
   );
 }
+
+
+// Este archivo es le principal, donde se configura el doc html 
+// se le puden agregar componentes globales como navbar o un footer
+// 
