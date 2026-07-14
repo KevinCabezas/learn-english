@@ -5,6 +5,7 @@ import { generateReadingPrompt } from "@/app/ai/promptsText";
 import ReadingOptions from "@/app/components/ReadingOptions";
 import TextHighlighter from "@/app/components/TextHighLighter";
 import ModalTranslationWords from "@/app/components/ModalTranslationWords";
+import { Icon } from "@iconify/react";
 
 type Reading = {
   title: string;
@@ -17,7 +18,7 @@ export default function ChatPage() {
   const [tense, setTense] = useState("Present Simple");
   const [topic, setTopic] = useState("Daily Life");
   const [respuesta, setRespuesta] = useState<Reading | null>(null);
-  const [openModal, setOpenModal] = useState(true);
+  const [openModal, setOpenModal] = useState(false);
 
   useEffect(() => {
     const saved = localStorage.getItem("text_english");
@@ -49,7 +50,12 @@ export default function ChatPage() {
 
   return (
     <div className="p-5 transition-all duration-300">
-      <h1 className="font-semibold text-xl text-gray-700">Comprension lectora</h1>
+      <div className="flex items-center gap-2">
+        <h1 className="font-semibold text-xl text-gray-700">Comprension lectora</h1>
+        <button className="text-center">
+          <Icon icon={"mingcute:question-line"} className="text-xl text-emerald-400" />
+        </button>
+      </div>
 
       <p className="mt-2 text-sm text-gray-500/90">
         En esta sección podrás generar textos en inglés adaptados a tu nivel de dificultad, el tiempo verbal que desees practicar
@@ -66,21 +72,22 @@ export default function ChatPage() {
 
       <button
         onClick={enviar}
-        className="mt-5 px-3 py-1 rounded-lg font-semibold bg-emerald-400 text-white "
+        className=" flex items-center gap-1 mt-5 px-3 py-1 rounded-lg font-semibold bg-emerald-400 text-white "
       >
+        <Icon icon={"oui:generate"} className="text-xl" />
         Generar texto
       </button>
 
       {respuesta && (
         <>
-          <div className="mt-5 bg-white p-5 rounded-3xl border text-gray-700 border-gray-200">
+          <div className="mt-5 bg-white p-5 rounded-3xl border text-gray-700 border-l-5 border-l-emerald-400 border-gray-200">
             <h2 className="text-lg font-semibold">
               {respuesta.title}
             </h2>
             <TextHighlighter key={crypto.randomUUID()} text={respuesta.text} storageKey="text_lighter"></TextHighlighter>
           </div>
 
-          <div className="mt-3 bg-white p-5 rounded-3xl border text-gray-700 border-gray-200">
+          <div className="mt-3 bg-white p-5 rounded-3xl border text-gray-700 border-l-5 border-l-emerald-400 border-gray-200">
             <h3 className=" font-semibold text-emerald-400 ">
               Questions
             </h3>
@@ -101,7 +108,10 @@ export default function ChatPage() {
       {!openModal &&
         <button
           onClick={() => setOpenModal(true)}
-          className="fixed right-0 bottom-0 z- m-7 px-2 py-1.5 text-center rounded-lg text-xs shadow-2xl bg-neutral-800 text-white">Lista de Traduccion</button>
+          className="fixed right-0 bottom-0 z- m-7 px-3 py-3 text-center border-2 border-emerald-200 rounded-full text-xs shadow-2xl bg-emerald-500 text-white"
+        >
+          <Icon icon={"fluent:apps-list-32-filled"} className="text-xl" />
+        </button>
       }
     </div>
   );

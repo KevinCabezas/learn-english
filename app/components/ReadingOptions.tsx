@@ -47,7 +47,7 @@ export default function ReadingOptions({ level, setLevel, tense, setTense, topic
         {/* Botón principal */}
         <button
           onClick={() => toggleDropdown("level")}
-          className="w-full px-3 py-1 text-left rounded-lg focus:outline-none bg-neutral-700 text-white flex justify-between items-center text-sm font-medium"
+          className="options"
         >
           {levelLabels[level]}
           <Icon icon={`${openDropdown === 'level' ? 'ep:arrow-up-bold' : 'ep:arrow-down-bold'}`} />
@@ -85,7 +85,7 @@ export default function ReadingOptions({ level, setLevel, tense, setTense, topic
         {/* Botón principal */}
         <button
           onClick={() => toggleDropdown("tense")}
-          className="w-full px-3 py-1 text-left rounded-lg focus:outline-none bg-neutral-700 text-white flex justify-between items-center text-sm font-medium"
+          className="options"
         >
           {tense || "Seleccionar"}
           <Icon icon={`${openDropdown === 'tense' ? 'ep:arrow-up-bold' : 'ep:arrow-down-bold'}`} />
@@ -122,7 +122,7 @@ export default function ReadingOptions({ level, setLevel, tense, setTense, topic
         {/* Botón principal */}
         <button
           onClick={() => toggleDropdown("topic")}
-          className="w-full px-3 py-1 text-left rounded-lg focus:outline-none bg-neutral-700 text-white flex justify-between items-center text-sm font-medium"
+          className="options"
         >
           {topic || "Seleccionar"}
           <Icon icon={`${openDropdown === "topic" ? 'ep:arrow-up-bold' : 'ep:arrow-down-bold'}`} />
