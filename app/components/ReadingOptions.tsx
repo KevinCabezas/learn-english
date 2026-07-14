@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useRef, useEffect } from "react";
+import { Icon } from "@iconify/react";
 
 type Props = {
   level: "easy" | "medium" | "hard";
@@ -11,14 +12,7 @@ type Props = {
   setTopic: React.Dispatch<React.SetStateAction<string>>;
 };
 
-export default function ReadingOptions({
-  level,
-  setLevel,
-  tense,
-  setTense,
-  topic,
-  setTopic,
-}: Props) {
+export default function ReadingOptions({ level, setLevel, tense, setTense, topic,setTopic, }: Props) {
   // Estados para controlar qué menú está abierto
   const [openDropdown, setOpenDropdown] = useState<"level" | "tense" | "topic" | null>(null);
   const containerRef = useRef<HTMLDivElement>(null);
@@ -53,15 +47,16 @@ export default function ReadingOptions({
         {/* Botón principal */}
         <button
           onClick={() => toggleDropdown("level")}
-          className="w-full px-3 py-1 text-left rounded focus:outline-none bg-neutral-700 text-white flex justify-between items-center text-sm font-medium"
+          className="w-full px-3 py-1 text-left rounded-lg focus:outline-none bg-neutral-700 text-white flex justify-between items-center text-sm font-medium"
         >
           {levelLabels[level]}
-          <span className="text-xs">▼</span>
+          <Icon icon={`${openDropdown === 'level' ? 'ep:arrow-up-bold' : 'ep:arrow-down-bold'}`} />
+          {/* <span className="text-xs">▼</span> */}
         </button>
 
         {/* LISTA DESPLEGADA (AQUÍ CAMBIÁS EL COLOR DE LA CAJA) */}
         {openDropdown === "level" && (
-          <ul className="absolute z-10 w-full mt-1 bg-white border border-gray-200 rounded p-1">
+          <ul className="absolute z-10 w-full mt-1 bg-white border border-gray-200 rounded-xl p-1">
             {(["easy", "medium", "hard"] as const).map((item) => (
               <li key={item}>
                 <button
@@ -69,7 +64,7 @@ export default function ReadingOptions({
                     setLevel(item);
                     setOpenDropdown(null);
                   }}
-                  className={`w-full text-left px-3 py-1.5 text-sm rounded transition-colors
+                  className={`w-full text-left px-3 py-1.5 text-sm rounded-lg transition-colors
                     ${level === item 
                       ? "bg-emerald-300 text-gray-700 font-semibold" // Color si está seleccionado
                       : "text-gray-900 hover:bg-emerald-100 hover:text-gray-700"    // Color normal y hover
@@ -90,15 +85,15 @@ export default function ReadingOptions({
         {/* Botón principal */}
         <button
           onClick={() => toggleDropdown("tense")}
-          className="w-full px-3 py-1 text-left rounded focus:outline-none bg-neutral-700 text-white flex justify-between items-center text-sm font-medium"
+          className="w-full px-3 py-1 text-left rounded-lg focus:outline-none bg-neutral-700 text-white flex justify-between items-center text-sm font-medium"
         >
           {tense || "Seleccionar"}
-          <span className="text-xs">▼</span>
+          <Icon icon={`${openDropdown === 'tense' ? 'ep:arrow-up-bold' : 'ep:arrow-down-bold'}`} />
         </button>
 
         {/* LISTA DESPLEGADA (AQUÍ CAMBIÁS EL COLOR DE LA CAJA) */}
         {openDropdown === "tense" && (
-          <ul className="absolute z-10 w-full mt-1 bg-white border border-gray-200 rounded shadow-lg p-1 max-h-60 overflow-y-auto">
+          <ul className="absolute z-10 w-full mt-1 bg-white border border-gray-200 rounded-xl shadow-lg p-1 max-h-60 overflow-y-auto">
             {tenses.map((item) => (
               <li key={item}>
                 <button
@@ -106,7 +101,7 @@ export default function ReadingOptions({
                     setTense(item);
                     setOpenDropdown(null);
                   }}
-                  className={`w-full text-left px-3 py-1.5 text-sm rounded transition-colors
+                  className={`w-full text-left px-3 py-1.5 text-sm rounded-lg transition-colors
                     ${tense === item 
                        ? "bg-emerald-300 text-gray-700 font-semibold" // Color si está seleccionado
                       : "text-gray-900 hover:bg-emerald-100 hover:text-gray-700"    // Color normal y hover
@@ -127,15 +122,15 @@ export default function ReadingOptions({
         {/* Botón principal */}
         <button
           onClick={() => toggleDropdown("topic")}
-          className="w-full px-3 py-1 text-left rounded focus:outline-none bg-neutral-700 text-white flex justify-between items-center text-sm font-medium"
+          className="w-full px-3 py-1 text-left rounded-lg focus:outline-none bg-neutral-700 text-white flex justify-between items-center text-sm font-medium"
         >
           {topic || "Seleccionar"}
-          <span className="text-xs">▼</span>
+          <Icon icon={`${openDropdown === "topic" ? 'ep:arrow-up-bold' : 'ep:arrow-down-bold'}`} />
         </button>
 
         {/* LISTA DESPLEGADA (AQUÍ CAMBIÁS EL COLOR DE LA CAJA) */}
         {openDropdown === "topic" && (
-          <ul className="absolute z-10 w-full mt-1 bg-white border border-gray-200 rounded shadow-lg p-1">
+          <ul className="absolute z-10 w-full mt-1 bg-white border border-gray-200 rounded-xl shadow-lg p-1">
             {topics.map((item) => (
               <li key={item}>
                 <button
@@ -143,7 +138,7 @@ export default function ReadingOptions({
                     setTopic(item);
                     setOpenDropdown(null);
                   }}
-                  className={`w-full text-left px-3 py-1.5 text-sm rounded transition-colors
+                  className={`w-full text-left px-3 py-1.5 text-sm rounded-lg transition-colors
                     ${topic === item 
                      ? "bg-emerald-300 text-gray-700 font-semibold" // Color si está seleccionado
                       : "text-gray-900 hover:bg-emerald-100 hover:text-gray-700"    // Color normal y hover
