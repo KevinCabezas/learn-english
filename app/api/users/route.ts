@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import { prismaCli } from "@/lib/prisma";
 
 
-export async function createUser(request: Request) {
+export async function POST(request: Request) {
   try {
     const body = await request.json();
     const { name, email } = body;
