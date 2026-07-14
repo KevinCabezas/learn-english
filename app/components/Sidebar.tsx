@@ -27,7 +27,7 @@ export default function Sidebar() {
 
   return (
     <aside
-      className={`sticky top-0 h-screen shrink-0 bg-neutral-800 text-white transition-all duration-300 ${collapsed ? "w-20" : "w-64"}`}
+      className={`sticky top-0 h-screen shrink-0 rounded-tr-xl bg-neutral-800 text-white transition-all duration-300 ${collapsed ? "w-20" : "w-64"}`}
     >
       <div className="flex h-full flex-col p-4">
         {/* Header */}
@@ -65,7 +65,7 @@ export default function Sidebar() {
             >
               <Icon icon={link.icon} className="text-xl shrink-0" />
               {!collapsed && (
-                <span className="whitespace-nowrap">
+                <span className="whitespace-nowrap text-sm">
                   {link.label}
                 </span>
               )}

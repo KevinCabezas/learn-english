@@ -49,7 +49,7 @@ export default function ChatPage() {
   }
 
   return (
-    <div className="p-5 transition-all duration-300">
+    <div className="pl-10 py-5 pr-15 transition-all duration-300">
       <div className="flex items-center gap-2">
         <h1 className="font-semibold text-xl text-gray-700">Comprension lectora</h1>
         <button className="text-center">
@@ -80,7 +80,7 @@ export default function ChatPage() {
 
       {respuesta && (
         <>
-          <div className="mt-5 bg-white p-5 rounded-3xl border text-gray-700 border-l-5 border-l-emerald-400 border-gray-200">
+          <div className="mt-5 bg-white p-8 rounded-3xl border text-gray-700 border-l-5 border-l-emerald-400 border-gray-200">
             <h2 className="text-lg font-semibold">
               {respuesta.title}
             </h2>

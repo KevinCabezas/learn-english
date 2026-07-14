@@ -24,7 +24,7 @@ export default function BlogLayout({ children, } : { children: React.ReactNode }
         <Link href="/blog/hijo-2">Blog hijo 2</Link>
         <Link href="/blog/hijo-3">Blog hijo 3</Link>
       </aside> */}
-      <section className="flex-1 min-h-dvh bg-gray-100/50 ">{children}</section>
+      <section className="flex-1 min-h-dvh bg-gray-100 ">{children}</section>
 
     </div>
   )
