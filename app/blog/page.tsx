@@ -7,7 +7,7 @@ export default async function BlogPostPage({
   // const post = await getPost(slug)
  
   return (
-    <div className="p-5">
+    <div className="p-5 mt-15 min-h-dvh">
       <h1>Page blog</h1>
     </div>
   )

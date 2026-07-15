@@ -68,6 +68,10 @@ export default function TextHighlighter({ text = "", storageKey = "highlights" }
     if (!selection || selection.rangeCount === 0) return;
     if (selection.isCollapsed) return;
 
+    const selectedText = selection.toString().trim();
+
+    if (!selectedText) return;
+
     const range = selection.getRangeAt(0);
 
     // Buscar siempre el <p>, aunque la selección esté dentro de un <mark>
@@ -153,6 +157,7 @@ export default function TextHighlighter({ text = "", storageKey = "highlights" }
     <div className="space-y-5">
       <p
         onMouseUp={highlight}
+        onPointerUp={() => setTimeout(highlight, 50)}
         className="selection:bg-yellow-300 leading-7 "
       >
         {renderedText}

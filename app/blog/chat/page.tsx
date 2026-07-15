@@ -49,15 +49,15 @@ export default function ChatPage() {
   }
 
   return (
-    <div className="pl-10 py-5 pr-15 transition-all duration-300">
-      <div className="flex items-center gap-2">
+    <div className="mt-15 p-5 lg:mt-0 lg:pl-10 lg:pb-10 lg:pt-5 lg:pr-15 transition-all duration-300">
+      <div className="flex items-centerh-fit gap-2">
         <h1 className="font-semibold text-xl text-gray-700">Comprension lectora</h1>
         <button className="text-center">
           <Icon icon={"mingcute:question-line"} className="text-xl text-emerald-400" />
         </button>
       </div>
 
-      <p className="mt-2 text-sm text-gray-500/90">
+      <p className="mt-2 lg:flex hidden text-sm text-gray-500/90">
         En esta sección podrás generar textos en inglés adaptados a tu nivel de dificultad, el tiempo verbal que desees practicar
         y el tema que más te interese.
       </p>
@@ -80,14 +80,14 @@ export default function ChatPage() {
 
       {respuesta && (
         <>
-          <div className="mt-5 bg-white p-8 rounded-3xl border text-gray-700 border-l-5 border-l-emerald-400 border-gray-200">
+          <div className="mt-5 bg-white lg:p-8 p-3 rounded-3xl border text-gray-700 lg:border-l-5 border-l-emerald-400 border-gray-200">
             <h2 className="text-lg font-semibold">
               {respuesta.title}
             </h2>
             <TextHighlighter key={crypto.randomUUID()} text={respuesta.text} storageKey="text_lighter"></TextHighlighter>
           </div>
 
-          <div className="mt-3 bg-white p-5 rounded-3xl border text-gray-700 border-l-5 border-l-emerald-400 border-gray-200">
+          <div className="mt-3 bg-white lg:p-8 p-5 rounded-3xl border text-gray-700 lg:border-l-5 border-l-emerald-400 border-gray-200">
             <h3 className=" font-semibold text-emerald-400 ">
               Questions
             </h3>
