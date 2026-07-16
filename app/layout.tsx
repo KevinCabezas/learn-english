@@ -19,16 +19,19 @@ export const metadata: Metadata = {
 };
 
 export default function RootLayout({
+  auth,
   children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+}: {
+  auth: React.ReactNode,
+  children: React.ReactNode
+}) {
   return (
     <html
       lang="en"
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
-      <body className="min-h-dvh flex flex-col bg-gray-100">{children}</body>
+      <body className="min-h-dvh flex flex-col bg-gray-100">{children}{auth}</body>
+      {/* <div>{auth}</div> */}
     </html>
   );
 }

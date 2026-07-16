@@ -1,31 +1,57 @@
 'use client'
 import Image from "next/image";
 import Link from "next/link";
-
+import { Icon } from "@iconify/react";
 
 export default function Home() {
 
   return (
-    <main className="flex items-center justify-start flex-col min-h-dvh gap-20 p-20 bg-purple-500 ">
-      <h1 className="text-4xl font-semibold">Learn English</h1>
-      <div className="flex flex-col items-center justify-center h-50 w-fit gap-5 px-10 rounded-lg bg-gray-100">
-        <Link
-          href={"/users"}
-          className="w-full text-center py-2 px-4 rounded-lg bg-emerald-800 text-white">
-          page users
-        </Link>
-        <Link
-          href={"/blog"}
-          className="w-full text-center py-2 px-4 rounded-lg bg-purple-400 text-white"
-        >
-          page blog
-        </Link>
-        <Link
-          href={"/chat"}
-          className="w-full text-center py-2 px-4 rounded-lg bg-purple-400 text-white"
-        >
-          page chat
-        </Link>
+    <main className="flex  min-h-dvh bg-white">
+
+
+      <div className="flex flex-col items-center justify-between py-15 px-15 h-dvh w-1/2  bg--400">
+        <div className="bg-amber w-full ">
+          <div className="flex items-center gap-2 text-purple-400">
+            <Icon icon={"ion:book-outline"} className="text-xl"/>
+            <span className="text-sm ">Aprende. Practica. Avanza.</span>
+          </div>
+        </div>
+        <div className="bg-red-00 mx-30 flex flex-col items-start gap-5">
+
+          <h1 className="text-5xl space-x-4 font-semibold">
+            <span className="text-gray-700 ">Aprende</span>
+            <span className="text-purple-400">Ingles</span>
+          </h1>
+
+          <p className=" text-sm text-gray-500 ">
+            Aprende ingles de forma practica y efectiva con lecciones cortas y ejercicios faciles de entender.
+          </p>
+          <div className="flex mt-5 flex-col gap-5 w-100">
+            <Link
+              href={"/blog"}
+              className="w-full text-center py-2 px-4 rounded-xl border-2 border-emerald-400 font-semibold text-emerald-400 hover:bg-emerald-400 hover:text-white transition-all duration-300"
+            >
+              Empezar Ahora
+            </Link>
+            <Link
+              href={"/login"}
+              className="w-full text-center py-2 px-4 rounded-xl border-2 border-purple-400 font-semibold text-purple-400 hover:bg-purple-400 hover:text-white transition-all duration-300"
+            >
+              Ingresar
+            </Link>
+          </div>
+        </div>
+
+        <div>
+          algo
+        </div>
+        <div className="fixed bottom-0 left-150 z-10 w-30 h-30 rounded-full bg-emerald-400">
+
+        </div>
+      </div>
+
+      <div className="w-1/2 h-dvh text-cnter items-center t bg-purple-400">
+
       </div>
     </main>
   );
