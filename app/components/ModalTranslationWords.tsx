@@ -41,15 +41,15 @@ export default function ModalTranslationWords({ listWords, onClose }: Props) {
 
     // localStorage.setItem("text_english", JSON.stringify(data));
     const dataRes = await res.json();
-    console.log(dataRes)
+    // console.log(dataRes)
     setData(dataRes);
   }
 
   useEffect(() => {
-    console.log('hola')
+    // console.log('hola')
 
     enviar()
-    console.log(data)
+    // console.log(data)
   }, [])
 
   return (

@@ -1,11 +1,13 @@
-import LoginForm from "@/app/components/auth/LoginForm";
+import SingupForm from "@/app/components/auth/SingupForm";
 import { Icon } from "@iconify/react";
+
+
 export default function Page() {
   return (
     <main className="flex  min-h-dvh w-full   ">
 
       <div className="w-1/2 h-dvh flex justify-center items-center bg-white">
-        <LoginForm />
+        <SingupForm />
       </div>
 
       <div className="w-1/2 h-dvh bg-purple-400">

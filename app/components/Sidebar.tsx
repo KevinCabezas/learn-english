@@ -8,7 +8,7 @@ const links = [
   {
     href: "/blog",
     label: "Inicio",
-    icon: "material-symbols:home-outline",
+    icon: "material-symbols:dashboard-outline-rounded",
   },
   {
     href: "/blog/chat",
@@ -28,7 +28,7 @@ const links = [
 ];
 
 export default function Sidebar() {
-  const [collapsed, setCollapsed] = useState(false);
+  const [collapsed, setCollapsed] = useState(true);
   const [movilMenu, setMovilMenu] = useState(false);
 
 
@@ -80,6 +80,32 @@ export default function Sidebar() {
             </Link>
           ))}
         </nav>
+        <div className="flex-1 items-end flex px-3">
+
+          <Link
+            href={"/"}
+            className="flex items-center gap-5 border-2 text-purple-400 border-purple-400 w-full py-1 rounded-lg hover:bg-purple-400 hover:text-white transition-all duration-300">
+
+              <Icon icon={"bx:exit"} className="text-xl shrink-0" />
+            {!collapsed && (
+              <span className="whitespace-nowrap font-semibold text-sm">
+                Salir
+              </span>
+            )}
+          </Link>
+           {/* <Link
+              href={"/"}
+              title={collapsed ? "salir" : undefined}
+              className="flex flex-col lg:flex-row items-start justify-center lg:justify-start lg:items-center gap-3 rounded-lg px-3 py-3 hover:bg-neutral-700"
+            >
+              <Icon icon={'carbon:exit'} className="text-xl shrink-0" />
+              {!collapsed && (
+                <span className="whitespace-nowrap text-sm">
+                  salior
+                </span>
+              )}
+            </Link> */}
+        </div>
       </div>
 
 
@@ -112,6 +138,8 @@ export default function Sidebar() {
         className={`flex items-center justify-end lg:hidden`}>
         <Icon icon={movilMenu ? "mingcute:close-line" : "material-symbols:menu"} className="text-2xl  " />
       </button>
+
+
     </aside>
   );
 }

@@ -2,10 +2,11 @@
 
 import { useState, useEffect } from "react";
 import { generateReadingPrompt } from "@/app/ai/promptsText";
-import ReadingOptions from "@/app/components/ReadingOptions";
-import TextHighlighter from "@/app/components/TextHighLighter";
+import ReadingOptions from "@/app/components/readingComprehesion/ReadingOptions";
+import TextHighlighter from "@/app/components/readingComprehesion/TextHighLighter";
 import ModalTranslationWords from "@/app/components/ModalTranslationWords";
 import { Icon } from "@iconify/react";
+import Questions from "@/app/components/readingComprehesion/Questions";
 
 type Reading = {
   title: string;
@@ -86,20 +87,7 @@ export default function ChatPage() {
             </h2>
             <TextHighlighter key={crypto.randomUUID()} text={respuesta.text} storageKey="text_lighter"></TextHighlighter>
           </div>
-
-          <div className="mt-3 bg-white lg:p-8 p-5 rounded-3xl border text-gray-700 lg:border-l-5 border-l-emerald-400 border-gray-200">
-            <h3 className=" font-semibold text-emerald-400 ">
-              Questions
-            </h3>
-            <ol className="list-decimal ml-6 mt-2">
-              {respuesta.questions.map((question, index) => (
-                <li key={index}>{question}</li>
-              ))}
-            </ol>
-            <button className="mt-5 px-3 py-1 rounded-xl font-semibold bg-emerald-400 text-white">
-              Responder
-            </button>
-          </div>
+          <Questions questions={respuesta.questions}></Questions>
         </>
       )}
       {openModal &&
