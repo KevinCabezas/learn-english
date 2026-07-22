@@ -6,42 +6,42 @@ import { Icon } from "@iconify/react";
 
 const links = [
   {
-    href: "/blog",
-    label: "Inicio",
-    icon: "material-symbols:dashboard-outline-rounded",
+    href: "/syllabus",
+    label: "Temario",
+    icon: "mage:dashboard",
   },
   {
-    href: "/blog/chat",
+    href: "/syllabus/readingComprehesion",
     label: "Comprensión lectora",
     icon: "material-symbols:menu-book-outline-sharp",
   },
   {
-    href: "/blog/hijo-2",
-    label: "Blog hijo 2",
+    href: "/syllabus/hijo-2",
+    label: "syllabus hijo 2",
     icon: "mdi:file-document-outline",
   },
   {
-    href: "/blog/hijo-3",
-    label: "Blog hijo 3",
+    href: "/syllabus/hijo-3",
+    label: "syllabus hijo 3",
     icon: "mdi:cog-outline",
   },
 ];
 
 export default function Sidebar() {
-  const [collapsed, setCollapsed] = useState(true);
+  const [collapsed, setCollapsed] = useState(false);
   const [movilMenu, setMovilMenu] = useState(false);
 
 
   return (
     <aside
-      className={`lg:sticky fixed z-50  flex flex-col lg:top-0 lg:h-dvh min-h-15 w-full shrink-0 p-5 lg:p-0 lg:rounded-tr-xl bg-neutral-800 text-white transition-all duration-300 ${collapsed ? "lg:w-20" : "lg:w-56"}`}
+      className={`lg:sticky fixed z-50  flex flex-col lg:top-0 lg:h-dvh min-h-15 w-full shrink-0 p-5 lg:p-0 lg:rounded-tr-x bg-neutral-800 text-white transition-all duration-300 ${collapsed ? "lg:w-20" : "lg:w-56"}`}
     >
 
       <div className="lg:flex hidden h-full lg:flex-col p-4">
         {/* Header */}
-        <div className="lg:mb-8 flex items-center lg:justify-between">
+        <div className="lg:mb-8 flex items-center lg:justify-end">
 
-          {!collapsed && (
+          {/* {!collapsed && (
             <Link href="/blog">
               <img
                 src="/logo-english.png"
@@ -49,7 +49,7 @@ export default function Sidebar() {
                 className="w-20 object-contain"
               />
             </Link>
-          )}
+          )} */}
 
           <button
             onClick={() => setCollapsed(!collapsed)}
@@ -80,20 +80,21 @@ export default function Sidebar() {
             </Link>
           ))}
         </nav>
-        <div className="flex-1 items-end flex px-3">
+        <div className="flex-1 items-end flex">
 
           <Link
             href={"/"}
-            className="flex items-center gap-5 border-2 text-purple-400 border-purple-400 w-full py-1 rounded-lg hover:bg-purple-400 hover:text-white transition-all duration-300">
+            title={collapsed ? 'Cerrar sesión' : undefined}
+            className="flex flex-col lg:flex-row items-start justify-center lg:justify-start lg:items-center gap-3 rounded-lg px-3 py-3 hover:bg-neutral-700  transition-all duration-300">
 
-              <Icon icon={"bx:exit"} className="text-xl shrink-0" />
+            <Icon icon={"iconamoon:exit-fill"} className="text-xl shrink-0" />
             {!collapsed && (
               <span className="whitespace-nowrap font-semibold text-sm">
-                Salir
+                Cerrar sesión
               </span>
             )}
           </Link>
-           {/* <Link
+          {/* <Link
               href={"/"}
               title={collapsed ? "salir" : undefined}
               className="flex flex-col lg:flex-row items-start justify-center lg:justify-start lg:items-center gap-3 rounded-lg px-3 py-3 hover:bg-neutral-700"

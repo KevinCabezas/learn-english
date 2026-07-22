@@ -1,4 +1,4 @@
-import SingupForm from "@/app/components/auth/SingupForm";
+import SingupForm from "@/app/components/auth/SignUpForm";
 import { Icon } from "@iconify/react";
 
 

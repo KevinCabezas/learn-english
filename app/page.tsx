@@ -16,13 +16,10 @@ export default function Home() {
     setLoading(true);
     await new Promise((reslover) => setTimeout(reslover, 2000));
 
-    router.push('/blog');
+    router.push('/syllabus');
 
 
   }
-
-
-
 
   return (
     <main className="flex  min-h-dvh bg-white">
@@ -48,7 +45,7 @@ export default function Home() {
           <div className="flex mt-5 flex-col gap-5 w-100">
             <button
               onClick={handleRedirect}
-              className="w-full text-center py-2 px-4 rounded-xl border-2 border-emerald-400 font-semibold text-emerald-400 hover:bg-emerald-400 hover:text-white transition-all duration-300"
+              className="w-full text-center py-2 px-4 rounded-xl border-2 border-emerald-400 font-semibold text-emerald-400 hover:bg-neutral-800 hover:border-neutral-800 hover:text-white transition-all duration-300"
             >
               Empezar Ahora
             </button>
@@ -56,9 +53,9 @@ export default function Home() {
             <Link
               href={"/login"}
               // prefetch={false}
-              className="w-full text-center py-2 px-4 rounded-xl border-2 border-purple-400 font-semibold text-purple-400 hover:bg-purple-400 hover:text-white transition-all duration-300"
+              className="w-full text-center py-2 px-4 rounded-xl border-2 border-purple-400 font-semibold text-purple-400 hover:bg-neutral-800 hover:border-neutral-800 hover:text-white transition-all duration-300"
             >
-              Ingresar
+              Iniciar sesión
             </Link>
           </div>
         </div>

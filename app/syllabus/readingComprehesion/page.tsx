@@ -50,7 +50,7 @@ export default function ChatPage() {
   }
 
   return (
-    <div className="mt-15 p-5 lg:mt-0 lg:pl-10 lg:pb-10 lg:pt-5 lg:pr-15 transition-all duration-300">
+    <main className="mt-15 p-5 lg:mt-0 lg:pl-10 lg:pb-10 lg:pt-5 lg:pr-15 transition-all duration-300">
       <div className="flex items-centerh-fit gap-2">
         <h1 className="font-semibold text-xl text-gray-700">Comprension lectora</h1>
         <button className="text-center">
@@ -101,6 +101,6 @@ export default function ChatPage() {
           <Icon icon={"fluent:apps-list-32-filled"} className="text-xl" />
         </button>
       }
-    </div>
+    </main>
   );
 }

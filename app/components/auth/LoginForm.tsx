@@ -36,14 +36,14 @@ export default function LoginForm() {
         />
 
         <button
-          className="w-full mt-5 rounded-xl bg-emerald-400 py-3 font-semibold text-white"
+          className="w-full mt-5 rounded-xl bg-emerald-400 py-3 font-semibold text-white hover:bg-neutral-800 hover:border-neutral-800 transition-all duration-300"
         >
           Ingresar
         </button>
       </form>
       <div className='flex items-center justify-center gap-1 mt-5 text-sm text-gray-500'>
         <span>No tienes una cuenta?</span>
-        <Link href="/singup" replace className="underline hover:text-emerald-400">
+        <Link href="/signUp" replace className="underline hover:text-emerald-400">
           Registrarse
         </Link>
 

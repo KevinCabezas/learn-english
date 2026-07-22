@@ -40,7 +40,7 @@ export default function SingupForm() {
           className="w-full rounded-xl p-3 border border-gray-300 focus:outline-none"
         />
         <button
-          className="w-full mt-5 rounded-xl bg-emerald-400 py-3 font-semibold text-white"
+          className="w-full mt-5 rounded-xl bg-emerald-400 py-3 font-semibold text-white hover:bg-neutral-800 hover:border-neutral-800 transition-all duration-300"
         >
           Registrarse
         </button>
