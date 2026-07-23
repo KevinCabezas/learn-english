@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState, useRef } from "react";
 
 type Highlight = {
   id: string;
@@ -12,18 +12,34 @@ type Highlight = {
 type Props = {
   text?: string;
   storageKey?: string;
+  addWord: (word: string) => void;
+  removeWord: (word: string) => void;
+  // setListWord: React.Dispatch<React.SetStateAction<string[]>>;
 };
 
-export default function TextHighlighter({ text = "", storageKey = "highlights" }: Props) {
+export default function TextHighlighter({ text = "", storageKey = "highlights", addWord, removeWord }: Props) {
 
   const [highlights, setHighlights] = useState<Highlight[]>([]);
   const [loaded, setLoaded] = useState(false);
+  const previousText = useRef(text);
+
+
+  useEffect(() => {
+    if (previousText.current !== text) {
+      setHighlights([]);
+      localStorage.removeItem(storageKey);
+
+      previousText.current = text;
+    }
+  }, [text, storageKey]);
 
   useEffect(() => {
     const saved = localStorage.getItem(storageKey);
 
     if (saved) {
       setHighlights(JSON.parse(saved));
+    } else {
+      setHighlights([]);
     }
 
     setLoaded(true);
@@ -32,10 +48,8 @@ export default function TextHighlighter({ text = "", storageKey = "highlights" }
   useEffect(() => {
     if (!loaded) return;
 
-    localStorage.setItem(
-      storageKey,
-      JSON.stringify(highlights)
-    );
+    localStorage.setItem(storageKey, JSON.stringify(highlights));
+
   }, [highlights, storageKey, loaded]);
 
   function getWordBounds(text: string, start: number, end: number) {
@@ -74,52 +88,100 @@ export default function TextHighlighter({ text = "", storageKey = "highlights" }
 
     const range = selection.getRangeAt(0);
 
-    // Buscar siempre el <p>, aunque la selección esté dentro de un <mark>
     let paragraph: HTMLElement | null = null;
 
     if (range.startContainer.nodeType === Node.TEXT_NODE) {
-      paragraph = range.startContainer.parentElement?.closest("p") ?? null;
+      paragraph =
+        range.startContainer.parentElement?.closest("p") ?? null;
     } else {
-      paragraph = (range.startContainer as HTMLElement).closest("p");
+      paragraph =
+        (range.startContainer as HTMLElement).closest("p");
     }
 
     if (!paragraph) return;
 
-    // Calcular posición absoluta respecto al párrafo completo
     const preRange = document.createRange();
+
     preRange.selectNodeContents(paragraph);
-    preRange.setEnd(range.startContainer, range.startOffset);
 
-    let start = preRange.toString().length;
-    let end = start + selection.toString().length;
+    preRange.setEnd(
+      range.startContainer,
+      range.startOffset
+    );
 
+    const start = preRange.toString().length;
+    const end = start + selection.toString().length;
+
+    // Obtiene la palabra completa
     const result = getWordBounds(text, start, end);
 
-    setHighlights((prev) => {
-      // ¿La nueva selección toca algún resaltado?
-      const overlap = prev.find(
-        (item) =>
-          result.start < item.end &&
-          result.end > item.start
+    const overlap = highlights.find(
+      (item) =>
+        result.start < item.end &&
+        result.end > item.start
+    );
+
+    if (overlap) {
+      // QUITAR RESALTADO
+      setHighlights((prev) =>
+        prev.filter(
+          (item) => item.id !== overlap.id
+        )
       );
 
-      if (overlap) {
-        // eliminar completamente el resaltado
-        return prev.filter((item) => item.id !== overlap.id);
-      }
+      // Elimina la palabra completa
+      removeWord(overlap.word);
 
-      // agregar uno nuevo
-      return [
+    } else {
+      // AGREGAR RESALTADO
+      const newHighlight = {
+        id: crypto.randomUUID(),
+        ...result,
+      };
+
+      setHighlights((prev) => [
         ...prev,
-        {
-          id: crypto.randomUUID(),
-          ...result,
-        },
-      ];
-    });
+        newHighlight,
+      ]);
+
+      // Guardar la palabra completa
+      addWord(result.word);
+    }
 
     selection.removeAllRanges();
   }
+
+  function saveOnlyWord(data: string) {
+    const words: string[] = JSON.parse(
+      localStorage.getItem("onlyWords") || "[]"
+    );
+
+    if (!words.includes(data)) {
+      words.push(data);
+      localStorage.setItem(
+        "onlyWords",
+        JSON.stringify(words)
+      );
+    }
+  }
+
+
+  function removeOnlyWord(data: string) {
+    const words: string[] = JSON.parse(
+      localStorage.getItem("onlyWords") || "[]"
+    );
+
+    const newWords = words.filter(
+      (word) => word !== data
+    );
+
+    localStorage.setItem(
+      "onlyWords",
+      JSON.stringify(newWords)
+    );
+  }
+
+
 
   const renderedText = useMemo(() => {
     const result: React.ReactNode[] = [];
@@ -148,6 +210,7 @@ export default function TextHighlighter({ text = "", storageKey = "highlights" }
     return result;
   }, [highlights, text]);
 
+
   function clear() {
     localStorage.removeItem(storageKey);
     setHighlights([]);
@@ -165,7 +228,7 @@ export default function TextHighlighter({ text = "", storageKey = "highlights" }
 
       <button
         onClick={clear}
-        className="bg-red-500 text-white px-4 py-2 rounded"
+        className="bg-purple-500 text-white px-2 py-1 rounded-lg"
       >
         Limpiar
       </button>

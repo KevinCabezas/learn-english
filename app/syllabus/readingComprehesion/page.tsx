@@ -19,7 +19,9 @@ export default function ChatPage() {
   const [tense, setTense] = useState("Present Simple");
   const [topic, setTopic] = useState("Daily Life");
   const [respuesta, setRespuesta] = useState<Reading | null>(null);
-  const [openModal, setOpenModal] = useState(false);
+  const [openModal, setOpenModal] = useState(true);
+
+  const [listWord, setListWord] = useState<string[]>([]);
 
   useEffect(() => {
     const saved = localStorage.getItem("text_english");
@@ -27,11 +29,50 @@ export default function ChatPage() {
     if (saved) {
       setRespuesta(JSON.parse(saved));
     }
+
+    const savedWords = localStorage.getItem("onlyWords");
+
+    if (savedWords) {
+      setListWord(JSON.parse(savedWords));
+    }
   }, []);
 
 
+  const addWord = (word: string) => {
+    setListWord((prev) => {
+      if (prev.includes(word)) {
+        return prev;
+      }
+
+      const newList = [...prev, word];
+
+      localStorage.setItem(
+        "onlyWords",
+        JSON.stringify(newList)
+      );
+
+      return newList;
+    });
+  };
+
+  const removeWord = (word: string) => {
+    setListWord((prev) => {
+      const newList = prev.filter(
+        (item) => item !== word
+      );
+
+      localStorage.setItem(
+        "onlyWords",
+        JSON.stringify(newList)
+      );
+
+      return newList;
+    });
+  };
+
+
   async function enviar() {
-    localStorage.removeItem("text_lighter");
+    localStorage.removeItem("highlights");
     const prompt = generateReadingPrompt(level, tense, topic);
 
     const res = await fetch("../api/chat", {
@@ -85,18 +126,26 @@ export default function ChatPage() {
             <h2 className="text-lg font-semibold">
               {respuesta.title}
             </h2>
-            <TextHighlighter key={crypto.randomUUID()} text={respuesta.text} storageKey="text_lighter"></TextHighlighter>
+            <TextHighlighter
+              // key={crypto.randomUUID()}
+              text={respuesta.text}
+              addWord={addWord}
+              removeWord={removeWord}
+            // removeWord={removeWord}
+            ></TextHighlighter>
           </div>
           <Questions questions={respuesta.questions}></Questions>
         </>
       )}
       {openModal &&
-        <ModalTranslationWords listWords={['dressed', 'aple', 'then']} onClose={() => setOpenModal(false)} />
+        <ModalTranslationWords
+          listWords={listWord}
+          onClose={() => setOpenModal(false)} />
       }
       {!openModal &&
         <button
           onClick={() => setOpenModal(true)}
-          className="fixed right-0 bottom-0 z- m-7 px-3 py-3 text-center border-2 border-emerald-200 rounded-full text-xs shadow-2xl bg-emerald-500 text-white"
+          className="fixed right-0 bottom-0 z- m-7 px-3 py-3 text-center border-2 border-purple-200 rounded-full text-xs shadow-2xl bg-purple-400 text-white"
         >
           <Icon icon={"fluent:apps-list-32-filled"} className="text-xl" />
         </button>
