@@ -73,6 +73,8 @@ export default function ChatPage() {
 
   async function enviar() {
     localStorage.removeItem("highlights");
+    localStorage.removeItem("onlyWords");
+    // localStorage.removeItem("highlights");
     const prompt = generateReadingPrompt(level, tense, topic);
 
     const res = await fetch("../api/chat", {
