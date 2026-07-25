@@ -1,0 +1,6 @@
+sirve para eidtar o garegar algo a  un atabla de la base
+primero cramos la migaracion que es como el commit de git
+luego genramos los cambios
+
+npx prisma migrate dev --name add_password_to_user
+npx prisma generate 
