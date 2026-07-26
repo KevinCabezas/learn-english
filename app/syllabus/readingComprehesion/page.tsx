@@ -19,7 +19,7 @@ export default function ChatPage() {
   const [tense, setTense] = useState("Present Simple");
   const [topic, setTopic] = useState("Daily Life");
   const [respuesta, setRespuesta] = useState<Reading | null>(null);
-  const [openModal, setOpenModal] = useState(true);
+  const [openModal, setOpenModal] = useState(false);
 
   const [listWord, setListWord] = useState<string[]>([]);
 

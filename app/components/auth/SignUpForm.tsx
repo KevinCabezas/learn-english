@@ -3,7 +3,7 @@
 import { useRouter } from "next/navigation";
 import { Icon } from "@iconify/react";
 import Link from "next/link";
-import { set, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { useState } from "react";
 import ModalAlert from "../ModalAlert";
 
@@ -48,7 +48,7 @@ export default function SignUpForm() {
       }
 
       console.log("Usuario creado:", result);
-      handleRedirectOk(result.message)
+      await handleRedirectOk('Bienvenido!')
       // router.push("/syllabus");
     } catch (error) {
       console.error("Error:", error);
@@ -62,7 +62,9 @@ export default function SignUpForm() {
     setLabel(message)
     await new Promise((reslover) => setTimeout(reslover, 2000));
 
-    router.push('/syllabus');
+    setLoading(false);
+    router.replace('/syllabus');
+
 
 
   }
@@ -79,7 +81,7 @@ export default function SignUpForm() {
 
   }
   return (
-    <div className="w-full max-w-md bg-white p-8 rounded-xl border border-gray-200">
+    <div className="w-full max-w-md bg-white p-8 rounded-xl border shadow-xl border-gray-200">
 
       <ModalAlert open={loading} status={label} ></ModalAlert>
       <div className="mb-4 flex items-center justify-end">

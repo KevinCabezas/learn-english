@@ -24,7 +24,7 @@ export default function ModalTranslationWords({ listWords, onClose }: Props) {
 
   // const [lista, setLista] = useState([]);
   const [data, setData] = useState<TWordTranslate | null>(null);
-  const [listWord, setListWord] = useState([]);
+  // const [listWord, setListWord] = useState([]);
 
   async function enviar() {
     localStorage.removeItem("text_lighter");

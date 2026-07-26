@@ -8,7 +8,7 @@ type TPropQuestions = {
 
 export default function Questions({ questions }: TPropQuestions) {
 
-  const [modalResponse, setModalResponse] = useState(false);
+  const [modalResponse, setModalResponse] = useState(true);
 
 
 
@@ -25,7 +25,8 @@ export default function Questions({ questions }: TPropQuestions) {
             {modalResponse && (
               <input
                 type="text"
-                className="mt-2 rounded-lg py-1 px-2 focus:outline-none bg-gray-200"
+                placeholder="R:"
+                className="mt-2  border-b border-gray-400  text-sm focus:outline-none w-full"
               />
             )}
           </li>

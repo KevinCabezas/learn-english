@@ -4,6 +4,8 @@ import { Icon } from "@iconify/react"
 import Card from "../components/syllabus/Card";
 import { syllabusList } from "../data/syllabus";
 
+
+
 export default async function BlogPostPage({
   params,
 }: {

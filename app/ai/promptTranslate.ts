@@ -2,42 +2,129 @@
 
 export function generateTranslateWordsPrompt(words: string[]) {
   return `
-Actúa como un profesor de inglés.
+Actúa como un profesor de inglés especializado en traducción.
 
-Recibirás una lista de palabras en inglés.
+Recibirás un ARRAY de elementos en inglés.
 
-Tu tarea es:
+IMPORTANTE:
+Cada elemento recibido en el array debe ser tratado como UNA UNIDAD INDIVISIBLE.
 
-- Traducir cada palabra al español.
-- que se ordenen de manera alfabetica.
-- Traducir únicamente la palabra, sin ejemplos ni explicaciones.
-- Si una palabra tiene varios significados, manda hasta 3 variantes.
-- No agregues palabras que no fueron enviadas.
-- Si hay fraces, osea no son una sola palabra, tambien traducelas.
-- Si en la lista hay elementos con dos palabras, cuenta como frase.
-- Las fraces deben tener una sola opcoin de traduccion.
-- Las fraces deben ir al final de las palabras. 
-- Las fraces deben ir ordenadas por cantidad de palabras despues de las palabras que se ordenaron en alfabeto.
-- No escribas texto fuera del JSON.
+Esto significa:
 
-Lista de palabras:
+- Si un elemento contiene UNA SOLA PALABRA, tradúcelo como una palabra.
+- Si un elemento contiene DOS O MÁS PALABRAS, trátalo como UNA FRASE COMPLETA.
+- NUNCA dividas un elemento en varias palabras.
+- NUNCA separes una frase en palabras individuales.
+- NUNCA agregues palabras que no estén en la entrada.
+- NUNCA elimines palabras de una frase.
+- NUNCA combines dos elementos diferentes.
+- Debes mantener cada elemento recibido como una unidad independiente.
 
-${words.join(", ")}
+Por ejemplo, si recibes:
 
-Devuelve ÚNICAMENTE un JSON válido con este formato:
+[
+  "I want to study",
+  "table",
+  "go"
+]
+
+Debes devolver:
+
+[
+  {
+    "word": "I want to study",
+    "translation": "Quiero estudiar"
+  },
+  {
+    "word": "go",
+    "translation": "ir"
+  },
+  {
+    "word": "table",
+    "translation": "mesa"
+  }
+]
+
+NO debes devolver:
+
+[
+  {
+    "word": "I",
+    "translation": "yo"
+  },
+  {
+    "word": "want",
+    "translation": "querer"
+  },
+  {
+    "word": "to",
+    "translation": "a"
+  },
+  {
+    "word": "study",
+    "translation": "estudiar"
+  }
+]
+
+REGLAS DE TRADUCCIÓN:
+
+1. Traduce cada elemento exactamente como fue recibido.
+
+2. Si el elemento contiene una sola palabra:
+   - Tradúcela al español.
+   - Si tiene varios significados comunes, proporciona hasta 3 significados.
+   - Separa los significados utilizando "/".
+   - No agregues ejemplos ni explicaciones.
+
+3. Si el elemento contiene dos o más palabras:
+   - Considera TODO el elemento como una sola frase.
+   - Traduce la frase completa.
+   - NO traduzcas cada palabra por separado.
+   - La frase debe tener UNA SOLA traducción principal.
+   - No agregues significados alternativos.
+   - No agregues ejemplos ni explicaciones.
+
+4. Las palabras individuales deben aparecer antes que las frases.
+
+5. Las palabras individuales deben ordenarse alfabéticamente.
+
+6. Las frases deben aparecer después de todas las palabras individuales.
+
+7. Las frases deben ordenarse de menor a mayor cantidad de palabras.
+
+8. Mantén exactamente el texto original recibido en el campo "word".
+
+9. No modifiques la escritura original de los elementos recibidos.
+
+10. No agregues elementos que no estén en la lista original.
+
+11. No elimines elementos de la lista original.
+
+12. La cantidad de elementos de la respuesta debe ser exactamente igual a la cantidad de elementos recibidos.
+
+LISTA ORIGINAL DE ELEMENTOS:
+
+${JSON.stringify(words, null, 2)}
+
+Devuelve ÚNICAMENTE un JSON válido.
+
+El formato debe ser exactamente:
 
 {
   "words": [
     {
       "word": "table",
-      "translation": "mesa/otro significado/otro significado"
+      "translation": "mesa"
     },
-    
+    {
+      "word": "I want to study",
+      "translation": "Quiero estudiar"
+    }
   ]
 }
 
 No agregues comentarios.
 No encierres el JSON entre \`\`\`.
-No escribas ninguna explicación.
+No escribas ninguna explicación fuera del JSON.
 `;
 }

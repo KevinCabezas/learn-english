@@ -1,37 +1,68 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Icon } from "@iconify/react";
+import { useRouter } from "next/navigation";
+import { links } from "../data/sidebar";
 
-const links = [
-  {
-    href: "/syllabus",
-    label: "Temario",
-    icon: "mage:dashboard",
-  },
-  {
-    href: "/syllabus/readingComprehesion",
-    label: "Comprensión lectora",
-    icon: "material-symbols:menu-book-outline-sharp",
-  },
-  {
-    href: "/syllabus/hijo-2",
-    label: "syllabus hijo 2",
-    icon: "mdi:file-document-outline",
-  },
-  {
-    href: "/syllabus/hijo-3",
-    label: "syllabus hijo 3",
-    icon: "mdi:cog-outline",
-  },
-];
+type User = {
+  id: number;
+  name: string;
+  email: string;
+};
 
 export default function Sidebar() {
   const [collapsed, setCollapsed] = useState(false);
   const [movilMenu, setMovilMenu] = useState(false);
 
+  const [user, setUser] = useState<User | null>(null);
 
+  const router = useRouter();
+
+  useEffect(() => {
+    const getUser = async () => {
+      try {
+        const response = await fetch("/api/auth/me");
+
+        if (!response.ok) {
+          setUser(null);
+          return;
+        }
+
+        const data = await response.json();
+
+        setUser(data.user);
+      } catch (error) {
+        console.error(
+          "Error al obtener usuario:",
+          error
+        );
+      }
+    };
+
+    getUser();
+  }, []);
+
+
+  const handleLogout = async () => {
+    try {
+      const response = await fetch("/api/auth/logout", { method: "POST", });
+
+      if (!response.ok) {
+        throw new Error(
+          "Error al cerrar sesión"
+        );
+      }
+
+      setUser(null);
+      router.push("/");
+      router.refresh();
+
+    } catch (error) {
+      console.error(error);
+    }
+  };
   return (
     <aside
       className={`lg:sticky fixed z-50  flex flex-col lg:top-0 lg:h-dvh min-h-15 w-full shrink-0 p-5 lg:p-0 lg:rounded-tr-x bg-neutral-800 text-white transition-all duration-300 ${collapsed ? "lg:w-20" : "lg:w-56"}`}
@@ -80,20 +111,37 @@ export default function Sidebar() {
             </Link>
           ))}
         </nav>
-        <div className="flex-1 items-end flex">
+        <div className="flex-1 justify-end flex flex-col gap-2">
+          <button
+            onClick={user ? () => {router.push("/profile")} : () => {router.push("/login")}}
+            className="group flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-neutral-700 transition-all duration-300 "
+          >
+            <Icon
+              icon="qlementine-icons:user-16"
+              className="text-xl shrink-0 group-hover:text-emerald-400 transition-all duration-300"
+            />
 
-          <Link
-            href={"/"}
-            title={collapsed ? 'Cerrar sesión' : undefined}
-            className="flex flex-col lg:flex-row items-start justify-center lg:justify-start lg:items-center gap-3 rounded-lg px-3 py-3 hover:bg-neutral-700  transition-all duration-300">
-
-            <Icon icon={"iconamoon:exit-fill"} className="text-xl shrink-0" />
             {!collapsed && (
-              <span className="whitespace-nowrap font-semibold text-sm">
-                Cerrar sesión
+              <span className="text-sm whitespace-nowrap">
+                {user ? user.name : "Ingresar"}
               </span>
             )}
-          </Link>
+          </button>
+          <div className="bg-r">
+            <button
+              onClick={user ? handleLogout : () => router.push("/")}
+              title={collapsed ? (user ? "Cerrar sesión" : "Salir") : undefined}
+              className="group flex flex-col lg:flex-row w-full items-start justify-center lg:justify-start lg:items-center gap-3 rounded-lg px-3 py-2 hover:bg-neutral-700  transition-all duration-300">
+
+              <Icon icon={"iconamoon:exit-fill"} className="text-xl shrink-0 group-hover:text-purple-400 transition-all duration-300 " />
+              {!collapsed && (
+                <span className="whitespace-nowrap font-semibold text-sm">
+                  {user ? 'Cerrar sesión' : "Salir"}
+                </span>
+              )}
+            </button>
+          </div>
+
           {/* <Link
               href={"/"}
               title={collapsed ? "salir" : undefined}
