@@ -43,11 +43,11 @@ export default function PresentPerfect() {
       <div className="flex flex-col h-full w-full gap-3">
         <span>{response?.topic}</span>
         <span>{response?.title}</span>
-        <span>{response?.introduction.whatIsIt}</span>
-        <span>{response?.introduction.mainUse}</span>
-        <span>{response?.introduction.simpleExplanation}</span>
-        <span>{response?.affirmative.structure}</span>
-        {response?.affirmative.examples.map((e, i) => (
+        <span>{response?.introduction?.whatIsIt}</span>
+        <span>{response?.introduction?.mainUse}</span>
+        <span>{response?.introduction?.simpleExplanation}</span>
+        <span>{response?.affirmative?.structure}</span>
+        {response?.affirmative?.examples.map((e, i) => (
 
           <div key={i} className="flex flex-col">
 
@@ -58,7 +58,7 @@ export default function PresentPerfect() {
         )
 
         )}
-  
+
 
 
       </div>
