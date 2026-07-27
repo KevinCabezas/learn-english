@@ -1,20 +1,57 @@
-// 'use client';
 
-import { Icon } from "@iconify/react"
+'use client';
+
+import { Icon } from "@iconify/react";
 import Card from "../components/syllabus/Card";
 import { syllabusList } from "../data/syllabus";
 
+import { useEffect, useState } from "react";
+import { generateTemaPrompt } from "@/app/ai/promptTema";
+import { GrammarTopicResponse } from "@/app/types/topic";
+import TopicBoard from "../components/syllabus/TopicBoard";
 
-
-export default async function BlogPostPage({
+export default  function BlogPostPage({
   params,
 }: {
   params: Promise<{ slug: string }>
 }) {
-  const { slug } = await params
+  // const { slug } = await params
   // const post = await getPost(slug)
 
+ const [response, setResponse] = useState<GrammarTopicResponse | null>(null);
+ const [value, setValue] = useState('');
 
+//  const inputContent = (event: React.ChangeEvent<HTMLInputElement>) => {
+//   setValue(event.target.value);
+//  };
+
+  useEffect(() => {
+    const saved = localStorage.getItem("tema");
+
+    if (saved) {
+      setResponse(JSON.parse(saved));
+    }
+
+  }, []);
+
+  async function send() {
+
+    const prompt = generateTemaPrompt(value)
+    const res = await fetch("../api/chat", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ prompt }),
+    });
+
+    const data: GrammarTopicResponse = await res.json();
+    // const data = await res.json();
+
+    localStorage.setItem("tema", JSON.stringify(data));
+
+    setResponse(data);
+  }
   return (
     <main className="p-5 mt-15 space-y-5 lg:mt-0 min-h-dvh">
       <div>
@@ -24,13 +61,21 @@ export default async function BlogPostPage({
       <div className="h-10 flex items-center gap-1">
         <input
           type="text" placeholder="Buscar lecciones o temas..."
+          onChange={(e) => setValue(e.target.value)}
           className="min-w-100 h-full px-3 rounded-xl focus:outline-none placeholder:font-semibold text-sm border border-gray-200 text-gray-700 bg-white  "
         />
-        <button className="group h-full w-10 flex items-center justify-center rounded-xl border border-gray-200 bg-white">
+        <button 
+          onClick={() => send()}
+        className="group h-full w-10 flex items-center justify-center rounded-xl border border-gray-200 bg-white">
           <Icon icon={'boxicons:search'} className="text-xl text-gray-400 group-hover:text-purple-400 transition-all duration-200"></Icon>
         </button>
       </div>
-      <div className=" grid grid-cols-4 gap-5">
+
+      <TopicBoard response={response} />
+      <section>
+
+      </section>
+      {/* <div className=" grid grid-cols-4 gap-5">
         {syllabusList.map((e, i) => (
           <Card
             key={i}
@@ -43,7 +88,7 @@ export default async function BlogPostPage({
             hover={e.hover}
           />
         ))}
-      </div>
+      </div> */}
 
     </main>
   )
