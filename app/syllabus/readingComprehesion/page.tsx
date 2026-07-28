@@ -136,7 +136,7 @@ export default function ChatPage() {
             // removeWord={removeWord}
             ></TextHighlighter>
           </div>
-          <Questions questions={respuesta.questions}></Questions>
+          <Questions text={respuesta.text} questions={respuesta.questions}></Questions>
         </>
       )}
       {openModal &&
