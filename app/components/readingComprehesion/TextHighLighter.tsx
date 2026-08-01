@@ -226,12 +226,12 @@ export default function TextHighlighter({ text = "", storageKey = "highlights", 
         {renderedText}
       </p>
 
-      <button
+      {/* <button
         onClick={clear}
         className="bg-purple-500 text-white px-2 py-1 rounded-lg"
       >
         Limpiar
-      </button>
+      </button> */}
 
       {/* <pre className="bg-gray-100 p-4 rounded text-sm overflow-auto">
         {JSON.stringify(highlights, null, 2)}

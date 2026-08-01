@@ -1,6 +1,9 @@
 export type TPropQuestions = {
   text: string;
   questions: string[];
+  showQuestion: boolean;
+  onChange: (value: boolean) => void;
+
 }
 
 

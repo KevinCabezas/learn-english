@@ -1,12 +1,13 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { generateReadingPrompt } from "@/app/ai/promptsText";
 import ReadingOptions from "@/app/components/readingComprehesion/ReadingOptions";
 import TextHighlighter from "@/app/components/readingComprehesion/TextHighLighter";
 import ModalTranslationWords from "@/app/components/ModalTranslationWords";
 import { Icon } from "@iconify/react";
 import Questions from "@/app/components/readingComprehesion/Questions";
+import FeedbackQuestions from "@/app/components/readingComprehesion/FeedbackQuestions";
 
 type Reading = {
   title: string;
@@ -20,8 +21,10 @@ export default function ChatPage() {
   const [topic, setTopic] = useState("Daily Life");
   const [respuesta, setRespuesta] = useState<Reading | null>(null);
   const [openModal, setOpenModal] = useState(false);
-
+  const [showFeedback, setShowFeedback] = useState(false);
+  const [showQuestion, setShowQuestion] = useState(true);
   const [listWord, setListWord] = useState<string[]>([]);
+
 
   useEffect(() => {
     const saved = localStorage.getItem("text_english");
@@ -74,7 +77,7 @@ export default function ChatPage() {
   async function enviar() {
     localStorage.removeItem("highlights");
     localStorage.removeItem("onlyWords");
-    // localStorage.removeItem("highlights");
+    localStorage.removeItem('feedback')
     const prompt = generateReadingPrompt(level, tense, topic);
 
     const res = await fetch("../api/chat", {
@@ -90,6 +93,8 @@ export default function ChatPage() {
     localStorage.setItem("text_english", JSON.stringify(data));
 
     setRespuesta(data);
+    setShowFeedback(false);
+    setShowQuestion(true);
   }
 
   return (
@@ -116,10 +121,10 @@ export default function ChatPage() {
 
       <button
         onClick={enviar}
-        className=" flex items-center gap-1 mt-5 px-3 py-1 rounded-lg font-semibold bg-emerald-400 text-white "
+        className="group flex items-center gap-1 mt-5 px-4 py-1.5 rounded-xl font-semibold bg-emerald-400 text-white hover:bg-neutral-800 transition-all duration-300 "
       >
-        <Icon icon={"oui:generate"} className="text-xl" />
         Generar texto
+        <Icon icon={"oui:generate"} className="text-xl group-hover:text-emerald-400" />
       </button>
 
       {respuesta && (
@@ -136,7 +141,10 @@ export default function ChatPage() {
             // removeWord={removeWord}
             ></TextHighlighter>
           </div>
-          <Questions text={respuesta.text} questions={respuesta.questions}></Questions>
+          <Questions text={respuesta.text} questions={respuesta.questions} onChange={(value) => setShowFeedback(value)} showQuestion={showQuestion} ></Questions> 
+          {showFeedback && (
+            <FeedbackQuestions />
+          )}
         </>
       )}
       {openModal &&

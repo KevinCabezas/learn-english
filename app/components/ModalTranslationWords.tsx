@@ -1,6 +1,5 @@
 "use client";
 
-import { get } from "http";
 import { useEffect, useState } from "react";
 import { generateTranslateWordsPrompt } from "../ai/promptTranslate";
 import { Icon } from "@iconify/react";
@@ -10,57 +9,47 @@ type Props = {
   onClose: () => void;
 }
 
-type Word = {
+type TWordTranslate = {
   word: string;
   translation: string;
 };
 
-type TWordTranslate = {
-  title: string;
-  words: Word[];
+type TWordTranslateResponse = {
+  words: TWordTranslate[];
 };
-
 export default function ModalTranslationWords({ listWords, onClose }: Props) {
 
-  // const [lista, setLista] = useState([]);
-  const [data, setData] = useState<TWordTranslate | null>(null);
-  // const [listWord, setListWord] = useState([]);
+  const [data, setData] = useState<TWordTranslate[] | null>(null);
 
   async function enviar() {
-    localStorage.removeItem("text_lighter");
-    const prompt = generateTranslateWordsPrompt(listWords);
-    console.log(listWords.length)
-    const res = await fetch("../api/chat", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ prompt }),
-    });
 
-    // const data = await res.json();
+    try {
 
-    // localStorage.setItem("text_english", JSON.stringify(data));
-    const dataRes = await res.json();
-    // console.log(dataRes)
-    setData(dataRes);
+      localStorage.removeItem("text_lighter");
+      const prompt = generateTranslateWordsPrompt(listWords);
+      console.log(listWords.length)
+      const res = await fetch("../api/chat", {
+        method: "POST",
+        headers: { "Content-Type": "application/json", },
+        body: JSON.stringify({ prompt }),
+      });
+
+      console.log(res)
+      // localStorage.setItem("text_english", JSON.stringify(data));
+      const dataRes: TWordTranslateResponse = await res.json();
+      // if (Array.isArray(dataRes)) {
+        
+      setData(dataRes.words);
+      console.log(data)
+      console.log(dataRes)
+     
+    } catch (error) {
+      console.error(error)
+    }
   }
 
-  // useEffect(() => {
-  //   // console.log('hola')
-  //   const getListWords = localStorage.getItem('onlyWords');
-
-  //   if (getListWords) {
-
-  //     setListWord(JSON.parse(getListWords))
-  //   }
-  //   // enviar()
-  //   // console.log(data)
-
-  // }, [])
-
   const handlerTraslate = () => {
-    console.log(listWords.length)
+    // console.log(listWords.length)
     enviar();
   }
   return (
@@ -79,7 +68,7 @@ export default function ModalTranslationWords({ listWords, onClose }: Props) {
         <div className="p-3 rounded-xl border border-gray-200 bg-white">
           <div className=" pb-3 border-b border-gray-200">
             <h3 className="mb-2 text-sm font-semibold text-gray-700">
-              Palabras seleccionadas 
+              Palabras seleccionadas
               <span className="text-xs"> ({listWords.length})</span>
             </h3>
             <div className="flex gap-2 text-xs text-gray-700 font-semibold">
@@ -105,7 +94,7 @@ export default function ModalTranslationWords({ listWords, onClose }: Props) {
           </div>
           <div className="max-h-50 min-w-100 overflow-y-auto custom-scrollbar ">
 
-            {data?.words.map((e, i) => (
+            {data?.map((e, i) => (
               <div key={i} className="grid grid-cols-[150px_1fr] py-1 pr-2 border-b border-gray-200 text-sm">
                 {/* <div className="flex bg-amber-300 w-10">
 
@@ -120,21 +109,7 @@ export default function ModalTranslationWords({ listWords, onClose }: Props) {
             ))}
           </div>
         </div>
-
-        {/* <div className="mt-10">
-          <button
-            onClick={handlerTraslate}
-            className="flex items-center gap-2 py-0.5 px-2 rounded-lg text-sm bg-neutral-800 text-white hover:bg-emerald-400 transition-all duration-300"
-
-          >
-            Traducir
-            <Icon icon={'ri:translate-ai-2'} className=""></Icon>
-          </button>
-        </div> */}
       </div>
-      {/* <div className="bg-green-300">
-        algo
-      </div> */}
     </div>
   )
 
